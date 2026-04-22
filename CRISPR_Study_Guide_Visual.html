@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CRISPR Gene Editing in CHO Cells -- Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;--sidebar:#1a2f4b;--card:#f8f9fb;--card2:#f0f2f6;
+  --tx:#1e293b;--txl:#64748b;--txd:#94a3b8;
+  --bdr:#e2e8f0;--bdr2:#cbd5e1;
+  --navy:#1a3a5c;--blue:#2d6a9f;--lb:#e8f2fb;
+  --teal:#0d9488;--tl:#e6f7f5;
+  --orange:#d97706;--ol:#fef3c7;
+  --red:#dc2626;--rl:#fee2e2;
+  --grn:#16a34a;--gl:#dcfce7;
+  --prp:#7c3aed;--pl:#ede9fe;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.78;font-size:16px}
+
+/* ── Sidebar ── */
+nav{position:fixed;left:0;top:0;bottom:0;width:260px;background:var(--sidebar);overflow-y:auto;padding:20px 0;z-index:100;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) var(--sidebar)}
+nav::-webkit-scrollbar{width:5px}
+nav::-webkit-scrollbar-track{background:var(--sidebar)}
+nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25);border-radius:3px}
+nav .logo{font-family:'Source Serif 4',serif;font-size:15px;font-weight:700;padding:0 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:10px;color:#fff;letter-spacing:.2px}
+.ns{font-size:9.5px;text-transform:uppercase;letter-spacing:1.8px;color:rgba(255,255,255,.35);padding:16px 18px 5px;font-weight:700}
+nav a{display:block;padding:5px 18px;font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;border-left:3px solid transparent;transition:all .15s;cursor:pointer}
+nav a:hover{color:#fff;background:rgba(255,255,255,.06);border-left-color:var(--teal)}
+nav a.active{color:#fff;background:rgba(255,255,255,.08);border-left-color:var(--teal);font-weight:600}
+
+/* ── Main ── */
+.main{margin-left:260px;padding:36px 52px 100px}
+h1{font-family:'Source Serif 4',serif;font-size:32px;color:var(--navy);margin-bottom:6px;line-height:1.25}
+.subtitle{font-size:15px;color:var(--txl);margin-bottom:32px}
+.part-label{font-size:10px;text-transform:uppercase;letter-spacing:2.5px;color:var(--teal);font-weight:700;margin-bottom:4px;text-align:center}
+h2{font-family:'Source Serif 4',serif;font-size:28px;color:var(--navy);margin:48px 0 16px;padding-top:22px;border-top:2px solid var(--bdr);scroll-margin-top:20px}
+h3{font-size:19px;color:var(--blue);margin:28px 0 10px;font-weight:700}
+h4{font-size:15px;color:var(--tx);margin:16px 0 6px;font-weight:600}
+p{margin-bottom:13px}
+strong{font-weight:600;color:var(--navy)}
+ul,ol{margin:0 0 14px 22px}
+li{margin-bottom:5px}
+
+/* ── Boxes ── */
+.box{border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0;font-size:15px}
+.box .lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
+.concept{background:var(--lb);border-left:4px solid var(--blue)}.concept .lbl{color:var(--blue)}
+.tip{background:var(--gl);border-left:4px solid var(--grn)}.tip .lbl{color:var(--grn)}
+.trouble{background:var(--rl);border-left:4px solid var(--red)}.trouble .lbl{color:var(--red)}
+.warn{background:var(--ol);border-left:4px solid var(--orange)}.warn .lbl{color:var(--orange)}
+.note{background:var(--pl);border-left:4px solid var(--prp)}.note .lbl{color:var(--prp)}
+
+/* ── Cards ── */
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:20px 24px;margin:18px 0;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+
+/* ── Phase Boxes ── */
+.phases{display:flex;gap:12px;margin:20px 0;justify-content:center;flex-wrap:wrap}
+.phase{border-radius:10px;padding:14px 22px;text-align:center;font-size:13px;font-weight:600;min-width:170px;border:2px solid}
+.phase .sub{font-size:11px;font-weight:400;margin-top:4px;opacity:.8}
+.p1{background:var(--lb);border-color:var(--blue);color:var(--blue)}
+.p2{background:var(--gl);border-color:var(--grn);color:var(--grn)}
+.p3{background:var(--rl);border-color:var(--red);color:var(--red)}
+.p4{background:var(--ol);border-color:var(--orange);color:var(--orange)}
+
+/* ── Flowcharts ── */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:16px 0;justify-content:center}
+.fs{background:#fff;border:1.5px solid var(--bdr);border-radius:8px;padding:9px 15px;text-align:center;font-size:12.5px;font-weight:600;color:var(--tx);min-width:95px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.fs.hi{border-color:var(--teal);background:var(--tl);color:#0a7a6e}
+.fs.warn-f{border-color:var(--orange);background:var(--ol);color:#92400e}
+.fs.red-f{border-color:var(--red);background:var(--rl);color:#991b1b}
+.fs.grn-f{border-color:var(--grn);background:var(--gl);color:#166534}
+.fs.blue-f{border-color:var(--blue);background:var(--lb);color:var(--navy)}
+.fs.prp-f{border-color:var(--prp);background:var(--pl);color:#5b21b6}
+.fs .sub{font-size:10.5px;font-weight:400;color:var(--txl);margin-top:2px}
+.fa{color:var(--txd);font-size:16px;font-weight:700}
+.cap{text-align:center;font-size:12px;color:var(--txd);margin-top:8px;font-style:italic}
+
+/* ── Steps ── */
+.steps{counter-reset:step;margin:10px 0 14px 0;padding:0;list-style:none}
+.steps li{counter-increment:step;padding:3px 0 3px 30px;position:relative;font-size:14px;color:var(--txl)}
+.steps li::before{content:counter(step)".";position:absolute;left:0;color:var(--teal);font-weight:700;font-size:13px}
+
+/* ── Tables ── */
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+th{background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-size:12px;font-weight:600}
+td{padding:9px 14px;border-bottom:1px solid var(--bdr);color:var(--tx)}
+tr:nth-child(even) td{background:#f8fafc}
+tr:hover td{background:#f1f5f9}
+
+/* ── Divider ── */
+.divider{border:none;border-top:2px solid var(--bdr);margin:44px 0}
+
+/* ── Misc ── */
+code{font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--card2);padding:2px 6px;border-radius:3px;color:var(--teal)}
+.formula{background:var(--card2);border-left:4px solid var(--teal);padding:14px 18px;margin:14px 0;font-family:'JetBrains Mono',monospace;font-size:14px;color:#0a7a6e;border-radius:0 6px 6px 0}
+
+/* ── DNA Diagram ── */
+.dna-diagram{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:20px;margin:18px 0;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.dna-row{display:flex;align-items:center;gap:4px;margin:6px 0;justify-content:center;flex-wrap:wrap}
+.dna-seg{padding:7px 14px;border-radius:5px;font-weight:600;font-size:12px;text-align:center}
+
+/* ── Sanger Diagram ── */
+.sanger{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:18px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.sanger-label{font-size:12px;color:var(--txl);margin-bottom:4px;font-weight:600}
+.sanger-bar{height:30px;border-radius:5px;margin:4px 0;display:flex;align-items:center;padding:0 14px;font-size:11px;font-weight:600}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  nav{width:100%;position:relative;height:auto;max-height:280px}
+  .main{margin-left:0;padding:20px}
+  .phases{flex-direction:column;align-items:center}
+  .flow{flex-direction:column}.fa{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<nav>
+  <div class="logo">CRISPR in CHO Cells</div>
+  <div class="ns">Part I: What We Did</div>
+  <a href="#s1">1. Cell Culture</a>
+  <a href="#s2">2. Plasmid Prep & Validation</a>
+  <a href="#s3">3. Transfection & Western Blot</a>
+  <a href="#s4">4. Kill Curves</a>
+  <a href="#s5">5. CRISPR Knockout</a>
+  <a href="#s6">6. CRISPR Knock-In</a>
+  <a href="#s7">7. gDNA, PCR & Sequencing</a>
+  <div class="ns">Part II: Principles</div>
+  <a href="#s8">8. CHO Cell Biology</a>
+  <a href="#s9">9. Bacterial Transformation</a>
+  <a href="#s10">10. Alkaline Lysis</a>
+  <a href="#s11">11. Nanodrop QC</a>
+  <a href="#s12">12. Restriction Digestion</a>
+  <a href="#s13">13. Gel Electrophoresis</a>
+  <a href="#s14">14. Lipofection</a>
+  <a href="#s15">15. CellTiter-Glo</a>
+  <a href="#s16">16. 6-TG & Puromycin</a>
+  <a href="#s17">17. CRISPR Mechanism</a>
+  <a href="#s18">18. RNP & CRISPRmax</a>
+  <a href="#s19">19. HDR Knock-In</a>
+  <a href="#s20">20. PCR & Phusion</a>
+  <a href="#s21">21. Sanger & ICE</a>
+  <a href="#s22">22. Western Blot</a>
+  <div class="ns">Part III: Reference</div>
+  <a href="#s23">23. Troubleshooting</a>
+  <a href="#s24">24. Calculations</a>
+</nav>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="main">
+
+<h1>CRISPR/Cas9 Gene Editing in CHO Cells</h1>
+
+<!-- ── Overview ── -->
+<div class="card">
+  <p style="text-align:center;font-size:13px;color:var(--txd);margin-bottom:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Complete Project Overview</p>
+  <div class="phases">
+    <div class="phase p1">Phase 1: Setup<div class="sub">Cell culture, plasmid prep,<br>RE digest verification</div></div>
+    <div class="phase p2">Phase 2: Testing<div class="sub">GFP transfection, Western,<br>6-TG & Puro kill curves</div></div>
+    <div class="phase p3">Phase 3: CRISPR<div class="sub">RNP knockout of HPRT1,<br>HDR knock-in + selection</div></div>
+    <div class="phase p4">Phase 4: Confirm<div class="sub">gDNA extraction, PCR,<br>Sanger + ICE analysis</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:16px;font-size:12px">
+    <div><strong style="color:var(--blue)">Phase 1 Steps:</strong>
+      <ol class="steps"><li>Thaw CHO cells, establish cultures</li><li>Transform plasmid into E. coli</li><li>Miniprep purification</li><li>Nanodrop QC</li><li>RE digest + gel verification</li></ol></div>
+    <div><strong style="color:var(--grn)">Phase 2 Steps:</strong>
+      <ol class="steps"><li>Lipofectamine transfection (0/2/5 ug)</li><li>GFP imaging Day 3 + Day 7</li><li>Western blot for GFP protein</li><li>6-TG kill curve (CellTiter-Glo)</li><li>Puromycin kill curve</li></ol></div>
+    <div><strong style="color:var(--red)">Phase 3 Steps:</strong>
+      <ol class="steps"><li>RNP assembly (Cas9 + gRNA)</li><li>CRISPRmax delivery (4 conditions)</li><li>Harvest pellets for gDNA</li><li>Knock-in with donor plasmid</li><li>Puromycin selection</li></ol></div>
+    <div><strong style="color:var(--orange)">Phase 4 Steps:</strong>
+      <ol class="steps"><li>gDNA extraction (Wizard SV)</li><li>PCR with Phusion (HPRT1 locus)</li><li>Gel electrophoresis</li><li>Sanger sequencing</li><li>ICE analysis</li></ol></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--        PART I: WHAT WE DID             -->
+<!-- ═══════════════════════════════════════ -->
+
+<hr class="divider">
+<div style="text-align:center;margin:8px 0 24px"><div class="part-label">Part I: What We Did</div></div>
+
+<!-- 1 -->
+<h2 id="s1">1. Cell Culture and Maintenance</h2>
+
+<p>The project began with establishing and maintaining CHO-K1 cell cultures. We thawed a cryopreserved vial, pelleted the cells to remove the DMSO-containing freezing medium, and seeded them into a T25 flask with complete media (F-12K + 10% FBS + 1% Pen/Strep). All work was done in a biosafety cabinet using aseptic technique.</p>
+
+<p>Over the course of the project, we maintained these cultures through regular monitoring, media changes, and passaging. We checked cells daily under the microscope for health (morphology, attachment, media color). When cells reached about 80% confluence, we passaged them: PBS wash, TrypLE dissociation, centrifugation, resuspension, and reseeding at lower density. We tracked passage number to avoid genetic drift.</p>
+
+<p>At each passaging or experiment setup, we counted cells using a <strong>hemocytometer with trypan blue exclusion</strong> to determine both cell density and viability. We also <strong>cryopreserved</strong> early-passage stocks using DMSO-based freezing medium and a CoolCell device (controlled-rate cooling at -1C/min).</p>
+
+<div class="card">
+  <p style="text-align:center;font-size:11px;color:var(--txd);text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:10px">Cell Culture Workflow</p>
+  <div class="flow">
+    <div class="fs blue-f">Thaw vial<div class="sub">(37C, quick)</div></div><div class="fa">&rarr;</div>
+    <div class="fs">Remove DMSO<div class="sub">(centrifuge,<br>discard super)</div></div><div class="fa">&rarr;</div>
+    <div class="fs">Seed in flask<div class="sub">(T25, complete media)</div></div><div class="fa">&rarr;</div>
+    <div class="fs">Monitor &<br>maintain<div class="sub">(37C, 5% CO2)</div></div><div class="fa">&rarr;</div>
+    <div class="fs hi">Passage<div class="sub">at ~80% confluence<br>(TrypLE, count, reseed)</div></div><div class="fa">&rarr;</div>
+    <div class="fs grn-f">Cryopreserve<div class="sub">DMSO medium<br>CoolCell, -80C</div></div>
+  </div>
+  <div class="cap">repeat as needed</div>
+</div>
+
+<div class="box concept">
+  <div class="lbl">Why PBS Wash Before TrypLE?</div>
+  <p style="margin:0">FBS contains serum proteins that act as competing substrates for TrypLE. If you skip the wash, the enzyme wastes its activity on dissolved serum proteins instead of the adhesion proteins holding cells to the flask. The wash removes residual serum so TrypLE can work efficiently.</p>
+</div>
+
+<!-- 2 -->
+<h2 id="s2">2. Plasmid Preparation and Validation</h2>
+
+<p>We needed large quantities of our expression plasmid (pAAV-CAGGS-eGFP), so we amplified it in bacteria. We <strong>transformed</strong> the plasmid into DH5-alpha E. coli by heat shock -- incubated DNA with competent bacteria on ice, briefly shocked at 42C to create transient membrane pores, then let bacteria recover in rich media before plating on antibiotic-selective plates. Only bacteria that took up the plasmid (carrying ampicillin resistance) survive. We also transformed pUC19 in parallel as a positive control to verify that the competent cells and heat shock protocol were working properly.</p>
+
+<p>The next day, we picked three individual colonies into liquid cultures and grew them overnight. We then purified the plasmid using a <strong>PureYield Miniprep kit</strong>, which works by alkaline lysis (to selectively separate plasmid from genomic DNA) followed by silica column capture, washing, and elution.</p>
+
+<p>We verified our plasmid at two levels. First, we checked concentration and purity on the Nanodrop (looking at A260/280 and A260/230 ratios). Second, we performed diagnostic restriction digests to confirm the plasmid was actually the construct we expected.</p>
+
+<p>For the digest, we set up three reactions per plasmid prep: one cut with <strong>NotI</strong>, one cut with <strong>EcoRV</strong>, and one uncut control (same plasmid, same buffer, but no enzyme added). Each reaction contained 500 ng of plasmid DNA, restriction enzyme, reaction buffer, and water, incubated at 37C for one hour. NotI is an 8-base cutter that produces sticky ends, while EcoRV is a 6-base cutter that produces blunt ends -- together they produce distinct, predictable fragment patterns.</p>
+
+<p>After digestion, we ran all samples on a 1% agarose gel alongside a 1 Kb DNA ladder for size reference. If the band pattern on the gel matched the fragment sizes we predicted from the plasmid map using Benchling, we could be confident we had the correct plasmid. The uncut control shows the native supercoiled form -- confirming DNA integrity and providing a reference.</p>
+
+<div class="card">
+  <p style="text-align:center;font-size:11px;color:var(--txd);text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:10px">Plasmid Preparation and Validation Pipeline</p>
+  <p style="font-size:12px;color:var(--txl);margin-bottom:6px"><strong style="color:var(--blue)">Making the plasmid:</strong></p>
+  <div class="flow">
+    <div class="fs red-f">Heat shock<div class="sub">transform into E. coli</div></div><div class="fa">&rarr;</div>
+    <div class="fs">Plate on<div class="sub">LB-ampicillin</div></div><div class="fa">&rarr;</div>
+    <div class="fs">Pick 3 colonies<div class="sub">grow overnight</div></div><div class="fa">&rarr;</div>
+    <div class="fs prp-f">Miniprep<div class="sub">alkaline lysis + column</div></div>
+  </div>
+  <p style="font-size:12px;color:var(--txl);margin:12px 0 6px"><strong style="color:var(--orange)">Verifying the plasmid:</strong></p>
+  <div class="flow">
+    <div class="fs">Nanodrop<div class="sub">conc + purity ratios</div></div><div class="fa">&rarr;</div>
+    <div class="fs warn-f">Restriction digest<div class="sub">NotI + EcoRV + uncut<br>500 ng DNA, 37C, 1 hr</div></div><div class="fa">&rarr;</div>
+    <div class="fs">Agarose gel<div class="sub">compare to predicted sizes</div></div><div class="fa">&rarr;</div>
+    <div class="fs grn-f">Plasmid<br>confirmed!</div>
+  </div>
+</div>
+
+<!-- 3 -->
+<h2 id="s3">3. Transient Transfection and Western Blot</h2>
+
+<p>Before moving to CRISPR, we first tested our ability to deliver DNA into CHO cells using <strong>Lipofectamine 3000</strong>. We transfected CHO cells in 6-well plates with our GFP plasmid at three doses (0, 2, and 5 ug) to establish a dose-response relationship. The lipofection complexes were prepared in serum-free OptiMEM using the standard two-tube method: one tube with lipofectamine, one with DNA + P3000 enhancer, then combined briefly before adding to cells.</p>
+
+<p>We set up duplicates for each condition -- one set for Day 3 harvest, one for Day 7 -- to track how expression changes over time. At each timepoint, we imaged cells under fluorescence microscopy to visually assess GFP expression. We then harvested cell pellets and stored them at -80C.</p>
+
+<p>Those pellets were later used for <strong>Western blot</strong> to confirm GFP protein expression at the molecular level. The workflow: lyse cells in RIPA buffer with protease inhibitors, separate proteins by SDS-PAGE, transfer to PVDF membrane, block with 5% milk, probe with anti-GFP primary antibody (overnight, 4C), then HRP-conjugated secondary antibody (1 hour, RT), and detect with ECL chemiluminescent substrate.</p>
+
+<p>Expected results: a band at ~27 kDa in the 2 and 5 ug DNA conditions (stronger at 5 ug), visible at Day 3 but faint or gone at Day 7. GFP fades over time because the plasmid is episomal -- it is not integrated into the genome, so it dilutes out with every cell division. This is the defining characteristic of <strong>transient</strong> transfection.</p>
+
+<div class="card">
+  <p style="text-align:center;font-size:11px;color:var(--txd);text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:10px">Transfection Experiment Design (6-Well Plate Layout)</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;font-size:12px;margin-bottom:8px">
+    <div style="color:var(--txl);font-weight:600">0 ug DNA</div>
+    <div style="color:var(--txl);font-weight:600">2 ug DNA</div>
+    <div style="color:var(--txl);font-weight:600">5 ug DNA</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;font-size:11px">
+    <div style="display:grid;grid-template-rows:1fr 1fr;gap:6px">
+      <div style="background:var(--card2);border:1px solid var(--bdr);border-radius:6px;padding:10px;color:var(--txd)">Day 3<br><span style="font-size:10px">No DNA control</span></div>
+      <div style="background:var(--card2);border:1px solid var(--bdr);border-radius:6px;padding:10px;color:var(--txd)">Day 7<br><span style="font-size:10px">No DNA control</span></div>
+    </div>
+    <div style="display:grid;grid-template-rows:1fr 1fr;gap:6px">
+      <div style="background:var(--gl);border:1px solid rgba(68,187,119,.3);border-radius:6px;padding:10px;color:var(--grn)">Day 3<br><span style="font-size:10px">Moderate GFP</span></div>
+      <div style="background:var(--card2);border:1px solid var(--bdr);border-radius:6px;padding:10px;color:var(--txd)">Day 7<br><span style="font-size:10px">Faint/absent GFP</span></div>
+    </div>
+    <div style="display:grid;grid-template-rows:1fr 1fr;gap:6px">
+      <div style="background:var(--gl);border:1.5px solid var(--grn);border-radius:6px;padding:10px;color:var(--grn);font-weight:600">Day 3<br><span style="font-size:10px">Strong GFP</span></div>
+      <div style="background:var(--card2);border:1px solid var(--bdr);border-radius:6px;padding:10px;color:var(--txd)">Day 7<br><span style="font-size:10px">Faint/absent GFP</span></div>
+    </div>
+  </div>
+  <div class="cap">GFP fades by Day 7 because episomal plasmid dilutes with each cell division</div>
+</div>
+
+<!-- 4 -->
+<h2 id="s4">4. Viability Assays and Kill Curves</h2>
+
+<p>Before we could select for CRISPR-edited cells, we needed to know exactly how much selection drug to use. A <strong>kill curve</strong> is a dose-response experiment: treat cells with a range of drug concentrations, then measure how many survive. We ran two separate kill curves in 96-well plate format:</p>
+
+<p><strong>6-Thioguanine (6-TG) kill curve:</strong> CHO cells exposed to a range of 6-TG concentrations (150 uM down to 0.2 uM, 3-fold serial dilutions) for 72-96 hours. 6-TG is a prodrug that requires HPRT1 to become toxic -- this curve defines the concentration needed to kill all wild-type cells while sparing HPRT1 knockouts.</p>
+
+<p><strong>Puromycin kill curve:</strong> Same format, with puromycin concentrations from 10 ug/mL down to 0.01 ug/mL, 72 hours. Defines the selection concentration for cells carrying the puromycin resistance cassette from the knock-in donor.</p>
+
+<p>Both used <strong>CellTiter-Glo 2.0</strong> as the readout -- an ATP-based luminescent assay where more living cells = more ATP = brighter glow. After drug exposure, we added the reagent, let it lyse cells and generate signal, and read luminescence on a plate reader. Results were plotted as percent viability versus drug concentration.</p>
+
+<p>Design elements: drugs prepared at 2x concentration (diluted 1:2 upon addition to cells), duplicate wells for each concentration, PBS in unused border wells to control for edge-effect evaporation, and white-walled plates for clean luminescence reads (prevents optical bleed-through between wells).</p>
+
+<div class="card">
+  <p style="text-align:center;font-size:11px;color:var(--txd);text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:12px">Kill Curve Concept: Dose-Response</p>
+  <div style="position:relative;height:140px;margin:0 40px">
+    <div style="position:absolute;left:0;top:0;bottom:30px;width:1px;background:var(--txd)"></div>
+    <div style="position:absolute;left:0;right:0;bottom:30px;height:1px;background:var(--txd)"></div>
+    <div style="position:absolute;left:-10px;top:0;font-size:10px;color:var(--txl)">100%</div>
+    <div style="position:absolute;left:-10px;top:45px;font-size:10px;color:var(--txl)">50%</div>
+    <div style="position:absolute;left:-10px;top:90px;font-size:10px;color:var(--txl)">0%</div>
+    <div style="position:absolute;left:2px;top:-14px;font-size:10px;color:var(--txl)">% Viability</div>
+    <div style="position:absolute;right:0;bottom:14px;font-size:10px;color:var(--txl)">Drug concentration (log scale) &rarr;</div>
+    <svg style="position:absolute;left:2px;top:0;width:calc(100% - 2px);height:110px" viewBox="0 0 400 110" preserveAspectRatio="none">
+      <path d="M 0 5 C 80 5, 140 5, 200 50 S 300 105, 400 108" fill="none" stroke="#e05555" stroke-width="2.5"/>
+      <line x1="200" y1="0" x2="200" y2="110" stroke="#e8993e" stroke-width="1" stroke-dasharray="4,3"/>
+    </svg>
+    <div style="position:absolute;left:calc(50% - 10px);bottom:14px;font-size:10px;color:var(--orange);font-weight:600">IC50</div>
+  </div>
+  <div class="cap" style="margin-top:4px">Selection concentration = minimum dose killing 100% of wild-type cells</div>
+</div>
+
+<!-- 5 -->
+<h2 id="s5">5. CRISPR/Cas9 RNP-Mediated HPRT1 Knockout</h2>
+
+<p>This was the core experiment. We used CRISPR/Cas9 to knock out the <strong>HPRT1 gene</strong> in CHO cells. We delivered Cas9 as an RNP (pre-assembled Cas9 protein + synthetic guide RNA) using Lipofectamine CRISPRmax. RNP delivery is preferred over plasmid delivery because the protein acts immediately upon entering the cell and is degraded within 24-48 hours, which minimizes off-target cutting.</p>
+
+<p>We set up four conditions in a 24-well plate:</p>
+<ul>
+  <li><strong>No transfection</strong> -- untreated baseline</li>
+  <li><strong>Non-targeting control RNP</strong> -- Cas9 with a guide that does not match any CHO gene (controls for transfection stress and nonspecific Cas9 effects)</li>
+  <li><strong>HPRT1-RNP1</strong> -- Cas9 with the first HPRT1-targeting guide</li>
+  <li><strong>HPRT1-RNP2</strong> -- Cas9 with a second, independent HPRT1-targeting guide</li>
+</ul>
+<p>Two guides targeting different sites within HPRT1 provide concordance evidence: if both produce the same phenotype, the effect is almost certainly on-target and not due to an off-target cut somewhere else in the genome.</p>
+
+<p>RNP complexes were assembled using a two-tube method. Tube 1 contained OptiMEM (25 uL), Cas9 protein (0.25 uL at 5 ug/uL), TrueGuide synthetic gRNA (1 uL at 250 ng/uL), and Cas9 Plus reagent (2.5 uL, added last). Tube 2 contained OptiMEM (25 uL) and CRISPRmax (1.5 uL). Tube 2 was added to Tube 1, incubated at room temperature for 10-15 minutes, and 50 uL of the combined complex was added per well. Three days later, we harvested all cell pellets for gDNA extraction.</p>
+
+<div class="card">
+  <p style="text-align:center;font-size:11px;color:var(--txd);text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:10px">CRISPR RNP Assembly and Delivery</p>
+  <div class="flow">
+    <div class="fs prp-f">Tube 1<div class="sub">OptiMEM<br>+ Cas9 protein<br>+ gRNA (TrueGuide)<br>+ Cas9 Plus (add LAST)</div></div>
+    <div class="fa">+</div>
+    <div class="fs blue-f">Tube 2<div class="sub">OptiMEM + CRISPRmax</div></div>
+    <div class="fa">&rarr;</div>
+    <div class="fs warn-f">Combine<div class="sub">10-15 min, RT</div></div>
+    <div class="fa">&rarr;</div>
+    <div class="fs">Lipid-RNP<div class="sub">complexes formed</div></div>
+    <div class="fa">&rarr;</div>
+    <div class="fs hi">Add to<br>CHO cells<div class="sub">3 day incubation</div></div>
+  </div>
+</div>
+
+<div class="box concept">
+  <div class="lbl">What Happens at the Cut Site</div>
+  <p style="margin:0">When the RNP finds its target sequence in HPRT1, Cas9 creates a double-strand break (DSB). The cell repairs this using <strong>non-homologous end joining (NHEJ)</strong>, which is fast but error-prone. NHEJ often introduces small insertions or deletions (INDELs) at the break site. If these INDELs cause a frameshift, the HPRT1 protein is disrupted and the gene is effectively knocked out.</p>
+</div>
+
+<!-- 6 -->
+<h2 id="s6">6. CRISPR/Cas9 RNP-Mediated Knock-In</h2>
+
+<p>In a follow-up experiment, we attempted targeted insertion (knock-in) of a reporter cassette at the HPRT1 locus. Cas9 makes a cut, and if we provide a <strong>donor template</strong> with our insert flanked by HPRT1 homology arms, the cell can use <strong>homology-directed repair (HDR)</strong> to integrate the insert precisely at the cut site.</p>
+
+<p>The donor plasmid (<strong>pHPRT1-PuroR-PGK-CMV-EGFP</strong>) contained puromycin resistance and GFP. Successful integration simultaneously disrupts HPRT1 (conferring 6-TG resistance) and introduces PuroR + GFP.</p>
+
+<p>Five conditions in a 6-well plate using <strong>reverse transfection</strong> (complexes pipetted into wells first, then cells seeded on top):</p>
+<ul>
+  <li><strong>No transfection</strong> -- control</li>
+  <li><strong>RNP1 only</strong> and <strong>RNP2 only</strong> -- knockout controls (no donor)</li>
+  <li><strong>RNP1 + donor</strong> and <strong>RNP2 + donor</strong> -- knock-in conditions</li>
+</ul>
+
+<p>After 3 days: checked GFP fluorescence, harvested RNP-only wells for gDNA, and started puromycin selection on knock-in wells. Untransfected cells die under puromycin; surviving GFP-positive colonies are candidate knock-ins.</p>
+
+<div class="box warn">
+  <div class="lbl">Dual Selection Logic</div>
+  <p style="margin:0"><strong>Puromycin</strong> selects for cells with integrated PuroR -- but this could be random integration anywhere in the genome. <strong>6-TG</strong> selects specifically for cells with disrupted HPRT1 -- which only happens if the donor inserted at the correct locus. Together, the two drugs specifically enrich for on-target knock-ins at the HPRT1 locus.</p>
+</div>
+
+<div class="dna-diagram">
+  <p style="font-size:11px;color:var(--txd);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px;text-align:center">Knock-In at HPRT1: What Happens at the DNA Level</p>
+  <p style="font-size:11px;color:var(--txl);margin-bottom:4px"><strong>Wild-type HPRT1 locus:</strong></p>
+  <div class="dna-row">
+    <div class="dna-seg" style="background:var(--lb);color:var(--blue);flex:1">...HPRT1 exons...</div>
+    <div class="dna-seg" style="background:var(--rl);color:var(--red);font-size:10px;padding:4px 6px">&#9986; Cas9 cuts here (DSB)</div>
+    <div class="dna-seg" style="background:var(--lb);color:var(--blue);flex:1">...HPRT1 exons...</div>
+  </div>
+  <p style="text-align:center;font-size:11px;color:var(--txd);margin:6px 0">&darr; Cell repairs using donor template (HDR) &darr;</p>
+  <p style="font-size:11px;color:var(--txl);margin-bottom:4px"><strong>After HDR knock-in:</strong></p>
+  <div class="dna-row">
+    <div class="dna-seg" style="background:var(--lb);color:var(--blue)">HPRT1 (left)</div>
+    <div class="dna-seg" style="background:var(--card2);color:var(--txl);font-size:10px">L-HA</div>
+    <div class="dna-seg" style="background:var(--gl);color:var(--grn)">PuroR</div>
+    <div class="dna-seg" style="background:var(--gl);color:var(--grn)">EGFP</div>
+    <div class="dna-seg" style="background:var(--card2);color:var(--txl);font-size:10px">R-HA</div>
+    <div class="dna-seg" style="background:var(--lb);color:var(--blue)">HPRT1 (right)</div>
+  </div>
+  <div style="font-size:11px;color:var(--txl);margin-top:8px;line-height:1.6">
+    HPRT1 is disrupted (insert breaks the gene) &rarr; <span style="color:var(--red)">6-TG resistant</span><br>
+    PuroR cassette is integrated &rarr; <span style="color:var(--grn)">Puromycin resistant</span><br>
+    EGFP is expressed &rarr; <span style="color:var(--grn)">Cells glow green</span>
+  </div>
+</div>
+
+<!-- 7 -->
+<h2 id="s7">7. Genomic DNA Extraction, PCR, and Sequencing</h2>
+
+<p>To confirm that CRISPR actually edited the HPRT1 locus, we extracted genomic DNA from our cell pellets using a <strong>Wizard SV kit</strong> (chaotropic lysis, silica column, ethanol washes, water elution). Checked quality on the Nanodrop.</p>
+
+<p>We ran PCR with <strong>Phusion high-fidelity polymerase</strong> to amplify the HPRT1 region where Cas9 cut. Phusion's proofreading exonuclease gives ~50x fewer errors than Taq, which is critical when you need to distinguish real CRISPR-induced INDELs from PCR artifacts. Master mix was prepared for common components; template was added separately per tube to prevent cross-contamination. Two-step protocol (98C denaturation, 72C combined annealing/extension, 35 cycles).</p>
+
+<p>Five samples: no transfection, control RNP, HPRT-RNP1, HPRT-RNP2, and an instructor-provided CHO gDNA control. PCR products were run on a gel to check for amplification, then submitted for Sanger sequencing and analyzed with <strong>ICE software</strong> (Synthego), which reports editing efficiency, knockout score, and INDEL distribution.</p>
+
+<div class="box warn">
+  <div class="lbl">Primer Details (from Benchling)</div>
+  <p style="margin:0;font-size:14px">
+    <strong>HPRT1 4574-4595 FWD 1:</strong> <code>TGATTTGGAACCCAGCACC</code> (22 bp, GC 59.09%, Tm 61.0C)<br>
+    <strong>HPRT1 5522-5544 REV 1:</strong> <code>ACCGAATCAGCATCCAGGT</code> (23 bp, GC 56.52%, Tm 61.9C)
+  </p>
+</div>
+
+<div class="sanger">
+  <p style="font-size:11px;color:var(--txd);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px;text-align:center">How Sanger Sequencing Reveals CRISPR Edits</p>
+  <div class="sanger-label">Unedited sample (clean trace):</div>
+  <div class="sanger-bar" style="background:linear-gradient(90deg,var(--grn) 0%,var(--grn) 100%);color:#fff">Clean, single peaks throughout</div>
+  <div class="sanger-label" style="margin-top:8px">Edited sample (mixed trace):</div>
+  <div class="sanger-bar" style="background:linear-gradient(90deg,var(--grn) 0%,var(--grn) 40%,var(--red) 42%,#8844aa 60%,var(--orange) 80%,var(--blue) 100%);color:#fff">
+    <span style="margin-left:35%">&larr; Cas9 cut site &rarr;</span>
+  </div>
+  <div class="cap">Overlapping peaks downstream of the cut site = mixed population of different INDELs</div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--        PART II: PRINCIPLES             -->
+<!-- ═══════════════════════════════════════ -->
+
+<hr class="divider">
+<div style="text-align:center;margin:8px 0 24px"><div class="part-label">Part II: Principles and Mechanisms</div></div>
+
+<!-- 8 -->
+<h2 id="s8">8. CHO Cell Biology</h2>
+
+<h3>Why CHO Cells Dominate Biomanufacturing</h3>
+<p>CHO cells produce roughly 70% of all recombinant therapeutic proteins. Their dominance rests on several factors: human-compatible N-linked glycosylation (though not identical -- CHO adds Neu5Gc sialic acid and lacks bisecting GlcNAc), fast doubling time (~14-17 hours), adaptability to serum-free suspension culture at high densities (>10 x 10<sup>6</sup> cells/mL), and extensive FDA regulatory history since 1987 when Genentech's tPA became the first recombinant protein produced in CHO cells to receive approval.</p>
+
+<h3>Growth Phases</h3>
+<p>When you seed cells into a new flask, they progress through predictable phases:</p>
+<table>
+  <tr><th>Phase</th><th>What Happens</th><th>Duration</th></tr>
+  <tr><td><strong>Lag</strong></td><td>Cells attach, recover, and adjust to the environment. No net growth yet.</td><td>12-24 hours</td></tr>
+  <tr><td><strong>Log (exponential)</strong></td><td>Cells divide at maximum rate. This is when experiments should be performed.</td><td>2-4 days</td></tr>
+  <tr><td><strong>Stationary</strong></td><td>Growth slows. Nutrients deplete, waste products accumulate, contact inhibition kicks in.</td><td>1-2 days</td></tr>
+  <tr><td><strong>Decline</strong></td><td>Cells die. Media turns yellow (acidic pH).</td><td>Avoid reaching this</td></tr>
+</table>
+
+<h3>Media Components</h3>
+<p><strong>F-12K base medium</strong> provides amino acids, vitamins, glucose, and salts. <strong>10% FBS</strong> supplies growth factors, attachment proteins (especially vitronectin and fibronectin), albumin for transport, and transferrin for iron delivery. <strong>1% Pen/Strep</strong> is a dual antibiotic cocktail: penicillin targets peptidoglycan synthesis in Gram-positive bacteria; streptomycin binds the 30S ribosomal subunit and causes mistranslation in both Gram-positive and Gram-negative species. The bicarbonate buffer system in the media requires 5% CO2 in the incubator to maintain physiological pH (~7.4).</p>
+
+<h3>TrypLE and Passaging</h3>
+<p>TrypLE Express is a recombinant serine protease that serves as an animal-origin-free, lot-consistent alternative to trypsin. It cleaves cell-cell and cell-matrix adhesion proteins. The PBS wash before TrypLE is critical -- residual serum proteins in the media compete as substrates and dramatically reduce enzyme activity. Passage number should stay below ~30 to minimize genetic drift, which can alter growth characteristics and experimental reproducibility.</p>
+
+<h3>Hemocytometer Counting</h3>
+<p>Trypan blue (MW ~960 Da) is excluded by intact cell membranes -- only cells with damaged membranes (dead cells) take up the dye and stain blue. The hemocytometer has a chamber depth of 0.1 mm, and each large corner square is 1 mm<sup>2</sup>, giving a volume of 10<sup>-4</sup> mL per square.</p>
+<div class="formula">Cell density = (Live cells counted in 4 squares) x (Dilution factor) x 10,000 / 4<br>% Viability = Live / (Live + Dead) x 100</div>
+
+<h3>Cryopreservation</h3>
+<p>Controlled-rate cooling at -1C/min allows intracellular water to leave cells by osmosis before it can freeze in place. If cooling is too fast, intracellular ice crystals form and rupture membranes. DMSO (10%) acts as a cryoprotectant by displacing water and disrupting ice crystal lattice formation. The CoolCell device achieves -1C/min cooling reproducibly without needing isopropanol baths. Rapid thawing at 37C is equally important -- it prevents recrystallization, where small ice crystals merge into larger, more damaging ones during slow warming.</p>
+
+<!-- 10 -->
+<h2 id="s9">9. Bacterial Transformation</h2>
+
+<h3>Why DH5-alpha?</h3>
+<p>DH5-alpha is an E. coli strain engineered specifically for cloning. Its key mutations: <strong>recA1</strong> prevents homologous recombination (which could rearrange your plasmid), <strong>endA1</strong> knocks out a nuclease that would degrade DNA during purification, and <strong>hsdR17</strong> disables a restriction system that would cut foreign DNA. These mutations are especially important for our pAAV-CAGGS-eGFP plasmid, which contains palindromic AAV ITRs that are prone to recombination in recA+ strains.</p>
+
+<h3>Heat Shock Mechanism</h3>
+<p>CaCl2 treatment neutralizes the electrostatic repulsion between the negatively charged DNA phosphate backbone and the negatively charged bacterial membrane, allowing DNA to associate with the cell surface. The 42C heat shock (30 seconds) creates transient pores through a thermal imbalance across the membrane. Immediate return to ice reseals the pores, trapping DNA inside. SOC outgrowth at 37C for 1 hour gives bacteria time to repair membrane damage and express the ampicillin resistance gene before being plated on selective LB-Amp plates.</p>
+
+<h3>The pAAV-CAGGS-eGFP Plasmid</h3>
+<p><strong>CAGGS promoter</strong> = CMV enhancer + chicken beta-actin promoter + rabbit beta-globin splice acceptor. This is a strong constitutive promoter that resists methylation silencing in mammalian cells. <strong>eGFP</strong> carries two mutations: S65T (shifts excitation to a single peak at 488 nm, matching the standard argon laser) and F64L (improves protein folding at 37C). Molecular weight ~27 kDa. The transgene cassette is flanked by <strong>AAV2 ITRs</strong> (inverted terminal repeats).</p>
+
+<h3>Antibiotic Selection</h3>
+<p>The bla gene on the plasmid encodes <strong>beta-lactamase</strong>, a secreted enzyme that hydrolyzes the beta-lactam ring of ampicillin. A known problem: because the enzyme is secreted into the surrounding media, it depletes ampicillin locally around a colony, which can allow non-transformed bacteria to grow nearby as <strong>satellite colonies</strong>. Carbenicillin is more hydrolysis-resistant and reduces this issue.</p>
+
+<!-- 11 -->
+<h2 id="s10">10. Alkaline Lysis and DNA Purification</h2>
+
+<p>Alkaline lysis is the core chemistry behind every miniprep kit. Understanding why it selectively purifies plasmid DNA over genomic DNA requires thinking about DNA topology.</p>
+
+<p><strong>Step 1 (Lysis):</strong> NaOH + SDS lyse the bacterial cells. NaOH denatures all DNA (both plasmid and genomic) by disrupting hydrogen bonds between base pairs, while SDS solubilizes membranes and denatures proteins.</p>
+
+<p><strong>Step 2 (Neutralization):</strong> Potassium acetate is added. This is where the selectivity happens. Small, supercoiled plasmid DNA renatures efficiently because the two complementary strands are topologically linked -- they literally cannot drift apart because they are part of the same covalently closed circle. Large genomic DNA strands, by contrast, separate irreversibly during denaturation. During neutralization, these separated genomic strands aggregate and precipitate along with the potassium-SDS-protein debris complex. The plasmid stays in solution.</p>
+
+<p><strong>Step 3 (Column purification):</strong> The cleared lysate is applied to a silica column. Chaotropic salts (like guanidinium) strip the hydration shell from DNA, enabling direct binding between DNA phosphate groups and the silica surface. Ethanol washes remove salts and contaminants. Low-salt elution (water or TE buffer) restores the hydration shell and releases pure DNA.</p>
+
+<div class="box concept">
+  <div class="lbl">Key Insight</div>
+  <p style="margin:0">The entire selectivity of alkaline lysis depends on the <strong>topological linkage</strong> of supercoiled plasmid strands. This is why nicked or linear plasmid preps have lower yields -- their strands can separate during the lysis step just like genomic DNA.</p>
+</div>
+
+<!-- 12 -->
+<h2 id="s11">11. Nanodrop Spectrophotometry</h2>
+
+<p>The Nanodrop uses the <strong>Beer-Lambert Law</strong>: absorbance is proportional to the concentration of the absorbing molecule and the path length. Because the Nanodrop uses a fixed micro-volume path length (~1 mm), you get concentration directly from absorbance.</p>
+
+<h3>Why DNA Absorbs at 260 nm</h3>
+<p>The nitrogenous bases in DNA have conjugated aromatic ring systems that absorb UV light at ~260 nm. This is an intrinsic physical property of the bases. For double-stranded DNA: an A260 of 1.0 = 50 ng/uL.</p>
+
+<h3>Purity Ratios</h3>
+<table>
+  <tr><th>Ratio</th><th>What It Measures</th><th>Ideal (DNA)</th><th>If It's Off</th></tr>
+  <tr><td><strong>A260/280</strong></td><td>Protein contamination (aromatic amino acids absorb at 280 nm)</td><td>~1.8</td><td>Low = protein carryover from lysis</td></tr>
+  <tr><td><strong>A260/230</strong></td><td>Organic solvent/salt contamination (guanidinium, EDTA, phenol absorb at 230 nm)</td><td>2.0-2.2</td><td>Low = guanidinium or ethanol carryover from column washes</td></tr>
+</table>
+<p>Always inspect the full absorbance spectrum visually -- ratios alone can be misleading at very low DNA concentrations where baseline noise dominates.</p>
+
+<!-- 13 -->
+<h2 id="s12">12. Restriction Enzyme Digestion</h2>
+
+<p>Type II restriction endonucleases are enzymes that recognize specific short palindromic DNA sequences (typically 4-8 bp) and cleave both strands at defined positions within or near the recognition site. The catalytic mechanism requires Mg<sup>2+</sup> as a cofactor.</p>
+
+<p>The two enzymes we used:</p>
+<table>
+  <tr><th>Enzyme</th><th>Recognition Site</th><th>Cut Type</th><th>Properties</th></tr>
+  <tr><td><strong>NotI</strong></td><td>GC'GGCCGC (8 bp)</td><td>Sticky ends (5' overhang)</td><td>Rare cutter -- 8-bp sites are statistically uncommon</td></tr>
+  <tr><td><strong>EcoRV</strong></td><td>GAT'ATC (6 bp)</td><td>Blunt ends</td><td>More frequent cutter, common cloning enzyme</td></tr>
+</table>
+
+<p><strong>Star activity</strong> is an important concept: under non-ideal conditions (excess enzyme, too much glycerol, wrong buffer, or extended incubation), restriction enzymes can cut at sequences similar but not identical to their true recognition site. This produces unexpected bands on a gel. Modern high-fidelity (HF) enzyme versions are engineered to minimize this.</p>
+
+<!-- 14 -->
+<h2 id="s13">13. Agarose Gel Electrophoresis</h2>
+
+<p>DNA carries a uniform negative charge from its phosphate backbone. When placed in an electric field, all DNA migrates toward the positive electrode. The agarose gel matrix provides size-dependent sieving: small fragments navigate the pores easily and move fast; large fragments are impeded and move slowly. This separates DNA by size.</p>
+
+<p>A <strong>1% agarose gel</strong> resolves fragments in the 0.5-10 kb range. Higher percentages (2-3%) resolve smaller fragments better; lower percentages (0.5%) resolve very large fragments.</p>
+
+<p><strong>TAE buffer</strong> serves three functions: Tris maintains pH, acetate provides ionic conductivity for current flow, and EDTA chelates Mg<sup>2+</sup> (which is a cofactor for nucleases -- removing it protects DNA from degradation during the run).</p>
+
+<p><strong>SYBR Safe</strong> is a DNA-binding fluorescent dye. When free in solution, it rotates freely and dissipates absorbed energy as heat (non-radiative decay). When intercalated into DNA, its rotation is constrained, forcing it to emit absorbed energy as fluorescent light. This is why it fluoresces ~1000x more brightly when bound to DNA.</p>
+
+<div class="box concept">
+  <div class="lbl">Supercoiled vs Linear vs Nicked</div>
+  <p style="margin:0">The same plasmid migrates at three different apparent sizes depending on its topology. <strong>Supercoiled</strong> (intact, tightly wound) migrates fastest -- it's the most compact form. <strong>Linear</strong> (one or two cuts) migrates at its true molecular weight. <strong>Nicked circular</strong> (one strand cut) is relaxed and floppy, migrating slowest. This is why the uncut control in a diagnostic digest often appears "smaller" than expected -- it's supercoiled.</p>
+</div>
+
+<!-- 15 -->
+<h2 id="s14">14. Lipid-Mediated Transfection</h2>
+
+<p>Cationic (positively charged) lipids bind anionic (negatively charged) DNA to form <strong>lipoplexes</strong> with a net positive surface charge. These positively charged complexes interact with the negatively charged cell membrane and enter the cell primarily through endocytosis.</p>
+
+<p>The rate-limiting step in lipofection is <strong>endosomal escape</strong>. After endocytosis, the lipoplex is trapped in an endosome. As the endosome acidifies, the lipid component undergoes a phase transition that destabilizes the endosomal membrane, releasing the DNA cargo into the cytoplasm. Most DNA (~90-99%) fails to escape and is degraded in lysosomes. Of the DNA that reaches the cytoplasm, nuclear entry occurs mainly during mitosis when the nuclear envelope breaks down.</p>
+
+<p>Key practical points: <strong>OptiMEM</strong> (serum-free media) is required for complex formation because serum proteins carry negative charges that neutralize the lipoplex and prevent cell binding. The <strong>P3000 enhancer</strong> in LF3000 pre-condenses DNA into tighter structures, improving lipid encapsulation and endosomal escape.</p>
+
+<!-- 16 -->
+<h2 id="s15">15. CellTiter-Glo and ATP-Based Viability</h2>
+
+<p>The principle is simple: living cells maintain millimolar concentrations of ATP through active metabolism. Dead cells have zero ATP. CellTiter-Glo exploits this by providing three components in a single reagent:</p>
+<ol>
+  <li>A <strong>lysis buffer</strong> to break open cells and release their ATP</li>
+  <li>An <strong>ATPase inhibitor</strong> to prevent enzymatic ATP degradation after lysis</li>
+  <li><strong>Luciferase + luciferin</strong> substrate for the light-producing reaction</li>
+</ol>
+
+<p>The reaction: luciferase catalyzes the oxidation of luciferin in the presence of ATP and O2, producing oxyluciferin and emitting light at ~560 nm. One ATP molecule = one photon. More living cells = more ATP = more light = higher luminescence reading on the plate reader. The "Glo" formulation provides >3 hours of signal stability, which is important for reading large multi-plate experiments.</p>
+
+<!-- 17 -->
+<h2 id="s16">16. 6-TG, Puromycin, and Selection Biology</h2>
+
+<h3>HPRT1 and 6-TG</h3>
+<p><strong>HPRT1</strong> (hypoxanthine-guanine phosphoribosyltransferase) is an enzyme in the <strong>purine salvage pathway</strong>. Its job is to recycle free purine bases (hypoxanthine and guanine) back into nucleotides by transferring a phosphoribosyl group from PRPP. HPRT1 is non-essential for cell survival because cells also have a de novo purine synthesis pathway that can compensate.</p>
+
+<p><strong>6-Thioguanine</strong> is a guanine analog. HPRT1 converts 6-TG into a thioguanine nucleotide that gets incorporated into DNA. Once in the DNA, it triggers futile cycles of mismatch repair, eventually leading to apoptosis. The key insight: without functional HPRT1, 6-TG cannot be activated and remains inert. This is why HPRT1 knockout cells survive 6-TG treatment -- this is a <strong>negative selection</strong> strategy (selecting for loss of gene function).</p>
+
+<h3>Puromycin</h3>
+<p>Puromycin structurally mimics aminoacyl-tRNA. It enters the ribosomal A-site and gets attached to the growing polypeptide chain via peptidyl transferase. But unlike real aminoacyl-tRNA (which has an ester bond), puromycin has an amide bond that cannot be cleaved during translocation. This causes <strong>premature chain termination</strong>. The accumulation of truncated, misfolded proteins overwhelms the cell's proteostasis machinery and triggers apoptosis. Puromycin kills rapidly (1-3 days), much faster than G418/neomycin (1-2 weeks).</p>
+
+<p>The <strong>pac gene</strong> (puromycin N-acetyltransferase) confers resistance by acetylating puromycin, which blocks its ability to enter the ribosomal A-site.</p>
+
+<!-- 18 -->
+<h2 id="s17">17. CRISPR/Cas9 Mechanism</h2>
+
+<p><strong>SpCas9</strong> (~160 kDa, from Streptococcus pyogenes) is a dual-domain nuclease. The <strong>HNH domain</strong> cuts the target strand (the strand complementary to the guide RNA), and the <strong>RuvC domain</strong> cuts the non-target strand. Together they produce a blunt-ended double-strand break.</p>
+
+<p>The cutting mechanism proceeds in stages:</p>
+<ol>
+  <li><strong>PAM recognition:</strong> Cas9 first scans DNA for a PAM sequence (5'-NGG-3' for SpCas9). PAM recognition is protein-mediated, not guide-mediated, and occurs on the non-target strand.</li>
+  <li><strong>Local unwinding:</strong> Upon PAM binding, Cas9 locally melts the DNA duplex adjacent to the PAM.</li>
+  <li><strong>Seed region pairing:</strong> The guide RNA begins base-pairing with the target strand, starting from the 8-12 nucleotides closest to the PAM (the "seed region"). If there are mismatches in the seed, the complex dissociates.</li>
+  <li><strong>Full R-loop formation:</strong> Base-pairing extends through the full 20-nt spacer, forming an R-loop (RNA:DNA hybrid displacing the non-target strand).</li>
+  <li><strong>Conformational activation:</strong> The HNH domain rotates ~140 degrees into its active position, which allosterically activates the RuvC domain.</li>
+  <li><strong>Cleavage:</strong> Both strands are cut, producing a blunt DSB approximately 3 bp upstream of the PAM.</li>
+</ol>
+
+<div class="box concept">
+  <div class="lbl">NHEJ vs HDR -- The Two Repair Outcomes</div>
+  <p style="margin:0"><strong>NHEJ (Non-Homologous End Joining):</strong> Active throughout the cell cycle. Fast but error-prone. Ligates broken ends directly, often introducing small insertions or deletions (INDELs). If these cause a frameshift, the gene is knocked out. This is the dominant repair pathway in mammalian cells.<br><br>
+  <strong>HDR (Homology-Directed Repair):</strong> Active only in S/G2 phase of the cell cycle (when a sister chromatid is present). Uses a homologous template for precise, error-free repair. If you provide an exogenous donor template, the cell can use it to insert new DNA at the break site. This is how knock-ins work -- but HDR is inherently less frequent than NHEJ, so knock-in efficiency is always lower than knock-out efficiency.</p>
+</div>
+
+<!-- 19 -->
+<h2 id="s18">18. RNP Delivery and CRISPRmax</h2>
+
+<h3>Why RNP Over Plasmid?</h3>
+<table>
+  <tr><th>Feature</th><th>RNP Delivery</th><th>Plasmid Delivery</th></tr>
+  <tr><td>Activity onset</td><td>Immediate (protein is pre-assembled)</td><td>Delayed (must be transcribed and translated)</td></tr>
+  <tr><td>Duration of Cas9 activity</td><td>24-48 hours (protein is degraded)</td><td>Days to weeks (continuous expression)</td></tr>
+  <tr><td>Off-target risk</td><td>Lower (~28x fewer off-target mutations)</td><td>Higher (prolonged Cas9 exposure)</td></tr>
+  <tr><td>Genomic integration risk</td><td>Zero (no DNA delivered)</td><td>Possible (bacterial DNA can integrate)</td></tr>
+  <tr><td>Immune stimulation</td><td>Minimal</td><td>Bacterial DNA can trigger innate immune sensors</td></tr>
+</table>
+
+<p><strong>CRISPRmax</strong> was optimized from ~60 lipid formulations specifically for RNP cargo (which is structurally different from DNA -- it is a large protein-RNA complex, not a nucleic acid). <strong>Cas9 Plus reagent</strong> conditions the protein surface for better lipid encapsulation. <strong>TrueGuide synthetic gRNAs</strong> carry 2'-O-methyl and phosphorothioate modifications at the 3' and 5' termini, which protect them from cellular nucleases.</p>
+
+<!-- 20 -->
+<h2 id="s19">19. HDR-Mediated Knock-In</h2>
+
+<p>HDR is restricted to the S/G2 phases of the cell cycle. The molecular basis: CDK-dependent phosphorylation of CtIP activates 5'-to-3' end resection at the DSB, which commits the cell to homologous recombination (NHEJ cannot operate on resected ends). The resected single-stranded tails are coated by RPA, then RAD51 (loaded by BRCA2) displaces RPA and mediates strand invasion into the homologous donor template. DNA synthesis copies the template sequence, and the structure is resolved to complete repair.</p>
+
+<p>Practical implications: HDR efficiency is typically 5-50% of total editing events, which is why selection markers (like PuroR in our donor) are critical for enriching the rare knock-in cells from the larger pool of NHEJ-edited cells. Longer homology arms (500-1000 bp each) generally improve HDR efficiency. Reverse transfection (adding complexes before cells settle) may improve uptake by catching cells during membrane remodeling as they attach.</p>
+
+<!-- 21 -->
+<h2 id="s20">20. PCR and Phusion Polymerase</h2>
+
+<p><strong>Phusion</strong> is a fusion polymerase: a Pyrococcus-derived proofreading polymerase fused to the Sso7d DNA-binding domain. The Sso7d domain increases processivity ~10x by keeping the polymerase bound to the template through longer stretches. The 3'-to-5' proofreading exonuclease checks each newly added base and removes mismatches, giving an error rate of ~4.4 x 10<sup>-7</sup> per bp per cycle (roughly 50x more accurate than Taq).</p>
+
+<p>The <strong>two-step protocol</strong> (skipping a separate annealing step) is possible when primer Tm is high enough to allow combined annealing and extension at 72C. Phusion requires <strong>98C denaturation</strong> (not 95C like Taq) because it is a thermostable archaeal enzyme that can withstand higher temperatures.</p>
+
+<p>Master mix strategy: all common components (buffer, dNTPs, primers, polymerase, water) are combined in a single tube and then aliquoted. Template DNA is added separately to each tube. This ensures consistency across all samples and prevents template cross-contamination.</p>
+
+<!-- 22 -->
+<h2 id="s21">21. Sanger Sequencing and ICE Analysis</h2>
+
+<p>In an <strong>unedited</strong> sample, Sanger sequencing produces clean, single peaks at every position because all alleles have the same sequence. In a <strong>CRISPR-edited bulk population</strong>, the trace is clean upstream of the cut site (where all alleles are still identical), then becomes a jumbled mess of overlapping peaks downstream. This is because different cells in the pool carry different INDELs, and Sanger reads them all simultaneously as a superposition.</p>
+
+<p><strong>ICE (Inference of CRISPR Edits)</strong> is a computational tool from Synthego that deconvolves this mixed trace. It works by modeling the edited trace as a weighted sum of candidate INDEL sequences and using non-negative least squares regression to determine the contribution of each. ICE reports:</p>
+<ul>
+  <li><strong>Editing efficiency:</strong> % of alleles with any change (insertion or deletion)</li>
+  <li><strong>Knockout score:</strong> % of alleles with frameshifting INDELs (predicted to disrupt protein function)</li>
+  <li><strong>INDEL distribution:</strong> which specific insertions and deletions are present and at what frequency</li>
+</ul>
+<p>An R<sup>2</sup> > 0.9 indicates a reliable deconvolution. ICE is comparable to amplicon NGS in accuracy but at a fraction of the cost.</p>
+
+<!-- 22 -->
+<h2 id="s22">22. Western Blot</h2>
+
+<p>Western blotting detects a specific protein in a complex mixture and determines its approximate molecular weight. The workflow:</p>
+
+<ol>
+  <li><strong>Lyse cells</strong> in RIPA detergent buffer with protease inhibitors (to prevent protein degradation during preparation)</li>
+  <li><strong>SDS-PAGE:</strong> SDS detergent coats every protein with a uniform negative charge proportional to its molecular mass. Heat denatures tertiary structure. Proteins are loaded into a polyacrylamide gel and separated by size in an electric field -- small proteins migrate fast, large proteins migrate slowly. The Laemmli system uses a stacking gel (low percentage, large pores) to concentrate samples into a tight band before they enter the resolving gel (higher percentage, smaller pores) where actual separation occurs.</li>
+  <li><strong>Transfer:</strong> Proteins are electrically transferred from the gel onto a PVDF membrane, preserving their spatial arrangement.</li>
+  <li><strong>Block:</strong> The membrane is soaked in 5% milk solution. Milk proteins fill all empty binding sites on the membrane, preventing antibodies from sticking non-specifically everywhere.</li>
+  <li><strong>Primary antibody:</strong> Anti-GFP antibody binds specifically to GFP protein on the membrane (overnight, 4C).</li>
+  <li><strong>Secondary antibody:</strong> An HRP (horseradish peroxidase)-conjugated antibody recognizes the primary antibody's Fc region (1 hour, RT). Because multiple secondary antibodies can bind each primary, this provides signal amplification.</li>
+  <li><strong>Detection:</strong> ECL (enhanced chemiluminescence) substrate is added. HRP catalyzes the oxidation of luminol, producing light. Where there is GFP bound to the membrane, you see a luminescent band on the imaging system.</li>
+</ol>
+
+<p>Expected results for our experiment: a band at ~27 kDa in the 2 ug and 5 ug DNA conditions (stronger at 5 ug), visible at Day 3 but faint or absent at Day 7 (transient expression fades as cells divide and dilute the episomal plasmid). No band should appear in the 0 ug control. A loading control (such as beta-actin at ~42 kDa) would confirm equal protein loading across all lanes.</p>
+
+<!-- ═══════════════════════════════════════ -->
+<!--        PART III: REFERENCE             -->
+<!-- ═══════════════════════════════════════ -->
+
+<hr class="divider">
+<div style="text-align:center;margin:8px 0 24px"><div class="part-label">Part III: Reference</div></div>
+
+<!-- 25 -->
+<h2 id="s23">23. Troubleshooting Guide</h2>
+
+<h3>Cell Culture</h3>
+<table>
+  <tr><th style="width:35%">Problem</th><th>Likely Causes / Solutions</th></tr>
+  <tr><td>Cells not detaching after TrypLE</td><td>Incomplete PBS wash (serum inhibits enzyme); TrypLE expired; increase incubation to 7-10 min; gently tap the flask</td></tr>
+  <tr><td>Low viability after thaw</td><td>Cells were unhealthy before freezing; thawing was too slow; prolonged DMSO exposure at RT; CoolCell was not at RT before use</td></tr>
+  <tr><td>Media turns yellow fast</td><td>Contamination (check turbidity/floating particles); cells overgrown; incubator CO2 calibration off</td></tr>
+  <tr><td>Slow growth</td><td>Media/FBS expired; high passage number (genetic drift); mycoplasma infection (test with PCR kit)</td></tr>
+</table>
+
+<h3>Transformation & Miniprep</h3>
+<table>
+  <tr><th style="width:35%">Problem</th><th>Likely Causes / Solutions</th></tr>
+  <tr><td>No colonies</td><td>Competent cells dead (pUC19 control should produce colonies); heat shock timing wrong (too long kills cells); no SOC recovery step; plates have wrong antibiotic</td></tr>
+  <tr><td>Satellite colonies</td><td>Ampicillin depletion by secreted beta-lactamase; switch to carbenicillin; use fresher plates; reduce incubation time</td></tr>
+  <tr><td>Low DNA yield</td><td>Insufficient bacterial growth (inoculate earlier/larger volume); elution volume too high or incubation too short</td></tr>
+  <tr><td>Low A260/280</td><td>Protein carryover from lysis; repeat purification with additional wash steps</td></tr>
+  <tr><td>Low A260/230</td><td>Salt/guanidinium carryover from binding buffer; perform additional ethanol washes</td></tr>
+</table>
+
+<h3>Gel & Digest</h3>
+<table>
+  <tr><th style="width:35%">Problem</th><th>Likely Causes / Solutions</th></tr>
+  <tr><td>Smeared bands</td><td>DNA degradation (nuclease contamination); too much DNA loaded; gel ran too long or too fast</td></tr>
+  <tr><td>No bands visible</td><td>DNA lost during preparation; stain not added or degraded; imager settings (exposure, filter) incorrect</td></tr>
+  <tr><td>Unexpected band sizes</td><td>Wrong plasmid; incomplete digestion (add more enzyme or time); star activity (use HF enzyme, reduce glycerol)</td></tr>
+  <tr><td>Uncut control appears "small"</td><td>Normal behavior -- supercoiled DNA migrates faster than its true linear size</td></tr>
+</table>
+
+<h3>Transfection & CRISPR</h3>
+<table>
+  <tr><th style="width:35%">Problem</th><th>Likely Causes / Solutions</th></tr>
+  <tr><td>Low transfection efficiency</td><td>Cell confluency wrong (aim for ~70%); DNA quality poor; complexes formed in serum-containing media; P3000 enhancer omitted</td></tr>
+  <tr><td>High cell death post-transfection</td><td>Too much lipofectamine (lipid toxicity); cells already stressed; reduce LF3000 amount</td></tr>
+  <tr><td>Low CRISPR editing efficiency</td><td>gRNA design (check on-target scores); RNP assembly issue (was Cas9 Plus added last?); cell confluency too high; increase RNP dose</td></tr>
+  <tr><td>No 6-TG resistant colonies</td><td>Editing occurred but all INDELs are in-frame (protein still functional); low editing overall; screen more cells</td></tr>
+  <tr><td>No GFP in knock-in wells</td><td>HDR efficiency too low (inherent limitation); try cell cycle synchronization (nocodazole); verify donor template integrity</td></tr>
+</table>
+
+<h3>PCR & Sequencing</h3>
+<table>
+  <tr><th style="width:35%">Problem</th><th>Likely Causes / Solutions</th></tr>
+  <tr><td>No PCR product</td><td>Template issue (low gDNA quality/quantity); must use 98C for Phusion (not 95C); primer design (check Tm, specificity); try GC buffer + 3% DMSO for GC-rich targets</td></tr>
+  <tr><td>Multiple bands</td><td>Non-specific priming; increase annealing temperature; redesign primers with higher specificity</td></tr>
+  <tr><td>Clean Sanger trace in "edited" sample</td><td>Low editing efficiency (most cells unedited); wrong genomic region sequenced; sample mislabeled</td></tr>
+</table>
+
+<!-- 26 -->
+<h2 id="s24">24. Key Calculations</h2>
+
+<table>
+  <tr><th>Calculation</th><th>Formula</th><th>Worked Example</th></tr>
+  <tr><td>Cell density</td><td>(Live in 4 squares) x DF x 10,000 / 4</td><td>180 live, DF=2: (180 x 2 x 10,000) / 4 = 9 x 10<sup>5</sup> cells/mL</td></tr>
+  <tr><td>% Viability</td><td>Live / (Live + Dead) x 100</td><td>180 / (180 + 12) x 100 = 93.8%</td></tr>
+  <tr><td>Doubling time</td><td>t x ln(2) / ln(Nf / Ni)</td><td>48h, 1x10<sup>5</sup> to 8x10<sup>5</sup>: 48 x 0.693 / 2.079 = 16 hours</td></tr>
+  <tr><td>Transformation efficiency</td><td>(Colonies x Total vol) / (Vol plated x DNA ug)</td><td>200 col, 300uL total, 200uL plated, 0.05 ug: (200 x 300) / (200 x 0.05) = 6 x 10<sup>6</sup> CFU/ug</td></tr>
+  <tr><td>DNA volume for digest</td><td>Desired ng / Concentration</td><td>500 ng / 250 ng/uL = 2 uL</td></tr>
+  <tr><td>Dilution (C1V1 = C2V2)</td><td>C1 x V1 = C2 x V2</td><td>85 ng/uL to 10 ng/uL in 20 uL: V1 = (10 x 20) / 85 = 2.35 uL DNA + 17.65 uL water</td></tr>
+
+</table>
+
+<!-- Footer -->
+<div style="margin-top:60px;padding-top:20px;border-top:1px solid var(--bdr);text-align:center;font-size:12px;color:var(--txd)">
+  CRISPR/Cas9 Gene Editing in CHO Cells -- Comprehensive Study Guide<br>
+  Northeastern University | MS Cell and Gene Therapies
+</div>
+
+</div><!-- /main -->
+
+<script>
+// Active sidebar link highlighting on scroll
+const sections=document.querySelectorAll('h2[id]');
+const navLinks=document.querySelectorAll('nav a[href^="#"]');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(a=>a.classList.remove('active'));
+      const active=document.querySelector('nav a[href="#'+e.target.id+'"]');
+      if(active){active.classList.add('active');active.scrollIntoView({block:'nearest',behavior:'smooth'})}
+    }
+  });
+},{rootMargin:'-20% 0px -75% 0px'});
+sections.forEach(s=>observer.observe(s));
+
+// Smooth scroll on click
+navLinks.forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+</body>
+</html>
